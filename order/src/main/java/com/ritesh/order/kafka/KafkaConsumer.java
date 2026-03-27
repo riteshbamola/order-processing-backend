@@ -1,0 +1,30 @@
+package com.ritesh.order.kafka;
+
+
+import com.ritesh.order.dto.OrderDTO;
+import com.ritesh.order.model.Order;
+import com.ritesh.order.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.stereotype.Service;
+
+import java.util.EventListener;
+
+@Service
+public class KafkaConsumer {
+
+
+    @Autowired
+    private OrderService orderService;
+
+    @KafkaListener(topics = "order.cancel")
+    public void cancelOrder(OrderDTO order, Acknowledgment acknowledgment){
+        try {
+            orderService.updateOrder(order.getOrderId(), order.getOrderStatus());
+            acknowledgment.acknowledge();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+}
