@@ -1,9 +1,10 @@
 package com.ritesh.order.kafka;
 
 import com.ritesh.order.dto.OrderDTO;
-import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
 
+@Service
 public class KafkaProducer {
 
     private final KafkaTemplate<String, OrderDTO> kafkaTemplate;
@@ -12,11 +13,8 @@ public class KafkaProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendEvent(OrderDTO orderDTO){
-        kafkaTemplate.send("order.created",orderDTO);
-
-
+    public void sendEvent(OrderDTO orderDTO, String topic){
+        kafkaTemplate.send(topic,orderDTO);
         //commit cdc log also later when i complete cdc implementation
-
     }
 }

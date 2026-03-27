@@ -14,11 +14,23 @@ public class OrderDTO {
 
     private String orderId;
     private String productId;
+
+    @Override
+    public String toString() {
+        return "OrderDTO{" +
+                "orderId='" + orderId + '\'' +
+                ", productId='" + productId + '\'' +
+                ", amount=" + amount +
+                ", quantity=" + quantity +
+                ", orderStatus=" + orderStatus +
+                '}';
+    }
+
     private double amount;
     private int quantity;
     private OrderStatus orderStatus;
 
-    public static OrderDTO fromEntity(com.ritesh.order.model.Order order) {
+    public static OrderDTO fromEntity(com.ritesh.order.model.OrderDetail order) {
         return OrderDTO.builder()
                 .orderId(order.getOrderId())
                 .productId(order.getProductId())
@@ -28,8 +40,8 @@ public class OrderDTO {
                 .build();
     }
 
-    public com.ritesh.order.model.Order toEntity() {
-        com.ritesh.order.model.Order order = new com.ritesh.order.model.Order();
+    public com.ritesh.order.model.OrderDetail toEntity() {
+        com.ritesh.order.model.OrderDetail order = new com.ritesh.order.model.OrderDetail();
         order.setOrderId(this.orderId);
         order.setProductId(this.productId);
         order.setAmount(this.amount);
@@ -37,4 +49,5 @@ public class OrderDTO {
         order.setOrderStatus(this.orderStatus);
         return order;
     }
+
 }

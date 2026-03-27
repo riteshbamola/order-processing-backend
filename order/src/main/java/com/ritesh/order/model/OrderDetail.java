@@ -9,7 +9,7 @@ import java.time.Instant;
 
 @Entity
 @Data
-public class Order {
+public class OrderDetail {
 
     @Id
     @Column(name="order_id")
@@ -20,7 +20,7 @@ public class Order {
     private String productId;
 
     @Column(name = "amount")
-    private double Amount;
+    private double amount;
 
     @Column(name= "quantity")
     private int quantity;

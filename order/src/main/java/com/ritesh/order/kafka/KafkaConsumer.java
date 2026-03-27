@@ -2,7 +2,6 @@ package com.ritesh.order.kafka;
 
 
 import com.ritesh.order.dto.OrderDTO;
-import com.ritesh.order.model.Order;
 import com.ritesh.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -26,5 +25,13 @@ public class KafkaConsumer {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
+    }
+
+    @KafkaListener(topics = "order.test")
+    public  void testOrder(OrderDTO order, Acknowledgment acknowledgment){
+
+        System.out.println("Order Event Received");
+        System.out.println(order);
+        acknowledgment.acknowledge();
     }
 }
