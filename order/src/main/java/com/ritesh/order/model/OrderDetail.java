@@ -1,7 +1,4 @@
 package com.ritesh.order.model;
-
-
-import com.ritesh.order.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,7 +23,7 @@ public class OrderDetail {
     private int quantity;
 
     @Column(name ="order_status")
-    private OrderStatus orderStatus = OrderStatus.PENDING;
+    private com.ritesh.common.dto.OrderStatus orderStatus = com.ritesh.common.dto.OrderStatus.PENDING;
 
 
     @Column(name = "created_at")

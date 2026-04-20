@@ -1,7 +1,7 @@
 package com.ritesh.order.kafka;
 
 
-import com.ritesh.order.dto.OrderDTO;
+import com.ritesh.common.dto.CommonDTO;
 import com.ritesh.order.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,7 +18,7 @@ public class KafkaConsumer {
     private OrderService orderService;
 
     @KafkaListener(topics = "order.cancel")
-    public void cancelOrder(OrderDTO order, Acknowledgment acknowledgment){
+    public void cancelOrder(CommonDTO order, Acknowledgment acknowledgment){
         try {
             orderService.updateOrder(order.getOrderId(), order.getOrderStatus());
             acknowledgment.acknowledge();
@@ -28,7 +28,7 @@ public class KafkaConsumer {
     }
 
     @KafkaListener(topics = "order.test")
-    public  void testOrder(OrderDTO order, Acknowledgment acknowledgment){
+    public  void testOrder(CommonDTO order, Acknowledgment acknowledgment){
 
         System.out.println("Order Event Received");
         System.out.println(order);

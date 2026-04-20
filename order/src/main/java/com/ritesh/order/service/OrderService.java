@@ -1,7 +1,6 @@
 package com.ritesh.order.service;
 
-import com.ritesh.order.dto.OrderDTO;
-import com.ritesh.order.enums.OrderStatus;
+import com.ritesh.common.dto.CommonDTO;
 import com.ritesh.order.kafka.KafkaProducer;
 import com.ritesh.order.model.OrderDetail;
 import com.ritesh.order.repository.OrderRepository;
@@ -22,19 +21,18 @@ public class OrderService {
     private KafkaProducer kafkaProducer;
 
     public Map<String,String> addOrder(OrderDetail order){
-        orderRepo.save(order);
+        order = orderRepo.save(order);
 
+        CommonDTO common = CommonDTO.builder().amount(order.getAmount()).orderId(order.getOrderId()).build();
 
-
-        //testing purpose;
-        OrderDTO orderDTO = OrderDTO.fromEntity(order);
-        kafkaProducer.sendEvent(orderDTO,"order.test");
+    
+        kafkaProducer.sendEvent(common,"order.test");
         return  Map.of(
                 "message", "Order Created Succesfully"
         );
     }
 
-    public  void updateOrder(String orderId,OrderStatus orderStatus) throws Exception{
+    public  void updateOrder(String orderId,com.ritesh.common.dto.OrderStatus orderStatus) throws Exception{
         OrderDetail order = orderRepo.findById(orderId).orElseThrow(() -> new Exception(" Order Not Found"));
         order.setOrderStatus(orderStatus);
 

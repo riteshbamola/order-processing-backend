@@ -1,6 +1,5 @@
-package com.ritesh.common.dto;   ✅
+package com.ritesh.common.dto;
 
-import com.ritesh.common_dto.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

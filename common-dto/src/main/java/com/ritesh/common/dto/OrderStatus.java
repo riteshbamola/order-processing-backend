@@ -1,4 +1,4 @@
-package com.ritesh.common_dto;
+package com.ritesh.common.dto;
 
 public enum OrderStatus {
 

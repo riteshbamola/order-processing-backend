@@ -1,6 +1,7 @@
 package com.ritesh.order.config;
 
-import com.ritesh.order.dto.OrderDTO;
+import com.ritesh.common.dto.CommonDTO;
+
 import com.ritesh.order.kafka.MyDeserializer;
 import com.ritesh.order.kafka.MySerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -24,7 +25,7 @@ public class KafkaConfig {
     // ─── Consumer ────────────────────────────────────────────────────────────
 
     @Bean
-    public ConsumerFactory<String, OrderDTO> consumerFactory() {
+    public ConsumerFactory<String, CommonDTO> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "order_consumer");
@@ -35,8 +36,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, OrderDTO> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, OrderDTO> factory =
+    public ConcurrentKafkaListenerContainerFactory<String, CommonDTO> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, CommonDTO> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.setConcurrency(3);
@@ -47,7 +48,7 @@ public class KafkaConfig {
     // ─── Producer ────────────────────────────────────────────────────────────
 
     @Bean
-    public ProducerFactory<String, OrderDTO> producerFactory() {
+    public ProducerFactory<String, CommonDTO> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -59,7 +60,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, OrderDTO> kafkaTemplate() {
+    public KafkaTemplate<String, CommonDTO> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }
