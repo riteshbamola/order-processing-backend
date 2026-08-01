@@ -26,7 +26,7 @@ public class KafkaConsumer {
             "INVENTORY_RELEASED",
             "INVENTORY.FAILED",
             "PAYMENT_SUCCESS",
-            "PAYMENT.FAILED"
+            "PAYMENT_FAILED"
     })
     public void handleEvents(CommonDTO event,
                              @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
@@ -37,19 +37,40 @@ public class KafkaConsumer {
                 case "ORDER_CREATED":
                     sagaService.updateSaga();
                     sagaService.updateSagaStep();
+                    sagaService.reserveInventory(event);
 
-                case "payment.start":
-                    service.startPayment(event);
+                    //INVENTORY
+
+                case "INVENTORY_RESERVED":
+                    sagaService.updateSaga();
+                    sagaService.updateSagaStep();
+                    sagaService.startPayment(event);
                     break;
 
-                case "inventory.reserved":
-                    // trigger payment
-                    service.startPayment(event);
+
+                case "INVENTORY_FAILED":
+                    sagaService.updateSaga();
+                    sagaService.updateSagaStep();
+                    sagaService.updateOrder(event);
+
+                case "INVENTORY_RELEASED":
+                    sagaService.updateSaga();
+                    sagaService.updateSagaStep();
+                    sagaService.updateOrder(event);
+
+
+                case "PAYMENT_SUCCESS":
+                    sagaService.updateSaga();
+                    sagaService.updateSagaStep();
+                    // UPDATE ORDER AS  COMPLETED
+                    sagaService.updateOrder(event);
                     break;
 
-                case "inventory.failed":
-                    // trigger compensation (order cancel)
-                    service.handleFailure(event);
+                case "PAYMENT.FAILED":
+                    sagaService.updateSaga();
+                    sagaService.updateSagaStep();
+                    sagaService.releaseInventory(event);
+                    // trigger compenssagaService.i
                     break;
 
                 default:

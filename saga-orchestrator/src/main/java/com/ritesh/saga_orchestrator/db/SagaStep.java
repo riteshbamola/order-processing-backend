@@ -3,14 +3,14 @@ package com.ritesh.saga_orchestrator.db;
 import com.ritesh.saga_orchestrator.enums.SagaStepName;
 import com.ritesh.saga_orchestrator.enums.StepStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
+
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SagaStep {

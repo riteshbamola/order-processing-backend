@@ -17,7 +17,7 @@ public class KafkaConsumer {
     @Autowired
     private OrderService orderService;
 
-    @KafkaListener(topics = "order.cancel")
+    @KafkaListener(topics = "ORDER.CANCEL")
     public void cancelOrder(CommonDTO order, Acknowledgment acknowledgment){
         try {
             orderService.updateOrder(order.getOrderId(), order.getOrderStatus());
