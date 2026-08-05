@@ -21,6 +21,7 @@ public class PaymentService {
 
 
     public void startPayment(CommonDTO commonDTO){
+        
         Payment payment = new Payment();
         Payment.builder()
                 .amount(commonDTO.getAmount())

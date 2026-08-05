@@ -26,7 +26,7 @@ public class OrderService {
         CommonDTO common = CommonDTO.builder().amount(order.getAmount()).orderId(order.getOrderId()).build();
 
     
-        kafkaProducer.sendEvent(common,"order.test");
+        kafkaProducer.sendEvent(common,"ORDER_CREATED");
         return  Map.of(
                 "message", "Order Created Succesfully"
         );

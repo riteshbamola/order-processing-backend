@@ -15,7 +15,7 @@ public class KafkaConsumer {
 
     @Autowired
     private PaymentService service;
-    @KafkaListener(topics = "payment.start")
+    @KafkaListener(topics = "PAYMENT_START")
     public void reserveInventory(CommonDTO event, Acknowledgment acknowledgment){
         try {
             service.startPayment(event);

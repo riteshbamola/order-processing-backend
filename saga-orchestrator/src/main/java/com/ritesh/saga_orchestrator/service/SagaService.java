@@ -21,37 +21,28 @@ public class SagaService {
         this.kafkaProducer= kafkaProducer;
     }
 
-
-    public void updateSaga(){
-
-
-    }
-
-    public void updateSagaStep(){
-
-    }
-
     public void startPayment(CommonDTO event) {
+        String topic = "PAYMENT_START";
+        kafkaProducer.sendMessage(event,topic);
     }
 
     public void reserveInventory(CommonDTO event) {
-            //save sagastep  -- pending
-            // save saga -- pending
-            String topic = "INVENTORY.RESERVE";
-            kafkaProducer.sendMessage(event, topic);
-
-    }
-
-    public void updateOrder(CommonDTO event) {
-
-        //sgaa step
-        //saga
-        String topic = "ORDER.CANCEL";
+        String topic = "INVENTORY_RESERVE";
         kafkaProducer.sendMessage(event, topic);
+
+    }
+    public void cancelOrder(CommonDTO event) {
+        String topic = "ORDER_CANCEL";
+        kafkaProducer.sendMessage(event, topic);
+
     }
 
+    public  void completeOrder(CommonDTO event){
+        String topic = "ORDER_COMPLETE";
+        kafkaProducer.sendMessage(event,topic);
+    }
     public void releaseInventory(CommonDTO event) {
-        String topic = "INVENTORY.RELEASE";
+        String topic = "INVENTORY_RELEASE";
         kafkaProducer.sendMessage(event,topic);
     }
 }

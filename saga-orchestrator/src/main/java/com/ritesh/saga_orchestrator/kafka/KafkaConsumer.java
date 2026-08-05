@@ -34,43 +34,29 @@ public class KafkaConsumer {
 
         try {
             switch (topic) {
-                case "ORDER_CREATED":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
-                    sagaService.reserveInventory(event);
 
-                    //INVENTORY
+                case "ORDER_CREATED":
+                    sagaService.reserveInventory(event);
+                    break;
 
                 case "INVENTORY_RESERVED":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
                     sagaService.startPayment(event);
                     break;
 
-
                 case "INVENTORY_FAILED":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
-                    sagaService.updateOrder(event);
-
-                case "INVENTORY_RELEASED":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
-                    sagaService.updateOrder(event);
-
-
-                case "PAYMENT_SUCCESS":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
-                    // UPDATE ORDER AS  COMPLETED
-                    sagaService.updateOrder(event);
+                    sagaService.cancelOrder(event);
                     break;
 
-                case "PAYMENT.FAILED":
-                    sagaService.updateSaga();
-                    sagaService.updateSagaStep();
+                case "PAYMENT_SUCCESS":
+                    sagaService.completeOrder(event);
+                    break;
+
+                case "PAYMENT_FAILED":
                     sagaService.releaseInventory(event);
-                    // trigger compenssagaService.i
+                    break;
+
+                case "INVENTORY_RELEASED":
+                    sagaService.cancelOrder(event);
                     break;
 
                 default:

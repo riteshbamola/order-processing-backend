@@ -14,10 +14,10 @@ public class KafkaConsumer {
 
     @Autowired
     private InventoryService service;
-    @KafkaListener(topics = "invenotry.reserve")
+    @KafkaListener(topics = "INVENTORY_RESERVE")
     public void reserveInventory(CommonDTO event, Acknowledgment acknowledgment){
         try {
-            service.reserveInventory(event.getProductId(), event.getQuantity());
+            service.reserveInventory(event);
 
             //CDC event to orchestrator == inventory.reserved
 
